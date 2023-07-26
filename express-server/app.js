@@ -1,37 +1,49 @@
 const express = require("express");
+const dotenv = require("dotenv");
+const { validateCourse, validateUpdateCourse } = require("./validators");
 
 const app = express();
-
-app.use(express.urlencoded({ extended: false }));
+dotenv.config();
 app.use(express.json());
 
-app.get(
-  "/hc",
-  (req, res, next) => {
-    console.log("this is middle , cheking the request");
-    next();
-  },
-  (req, res, next) => {
-    console.log("23242323 this is ");
-    next();
-  },
-  (req, res) => {
-    res.json({ data: "ths is data", message: " this is message" });
+// app.post("/api/course-details", courseData, (req, res) => {
+//   const { name, description, category } = req.body;
+//   res
+//     .status(201)
+//     .json({ message: "Data created successfully", data: req.body });
+// });
+let courses = [];
+// Get all courses
+app.get("/api/courses", (req, res) => {
+  res.json(courses);
+});
+// Create a new course
+app.post("/api/courses", validateCourse, (req, res) => {
+  const newCourse = req.body;
+  courses.push(newCourse);
+  res
+    .status(201)
+    .json({ message: "Data created successfully", data: newCourse });
+});
+
+app.put("/api/courses/:name", validateUpdateCourse, (req, res) => {
+  const courseName = req.params.name;
+  const updatedCourse = req.body;
+
+  const index = courses.findIndex((course) => course.name === courseName);
+  if (index !== -1) {
+    courses[index] = { ...courses[index], ...updatedCourse };
   }
-);
 
-// app.update('/up/:id', () => {
+  res.json(courses[index]);
+});
+app.delete("/api/courses/:name", (req, res) => {
+  const courseName = req.params.name;
 
-// })
-
-app.post("/new/:id", (req, res) => {
-  console.log("query -->", req.query);
-  console.log("param", req.params.id);
-  console.log("body", req.body);
-
-  res.sendStatus(200);
+  courses = courses.filter((course) => course.name !== courseName);
+  res.json({ message: "Course deleted successfully" });
 });
 
 app.listen(process.env.PORT, () => {
-  console.log("Server is running on port 5000");
+  console.log(`Server running on port 8000`);
 });
