@@ -4,11 +4,11 @@
 
 <!-- GET -->
 
-# http://localhost:8000/api/courses
+# GET - http://localhost:8000/api/courses
 
 <!-- POST -->
 
-# http://localhost:8000/api/courses
+# POSt - http://localhost:8000/api/courses
 
 <!-- {
     "name": "FullStack Web 4.0",
@@ -17,8 +17,8 @@
 } -->
 <!-- PUT -->
 
-# localhost:8000/api/courses/FullStack Web 3.0
+# PUT -  http://localhost:8000/api/courses/:name
 
 <!-- DELETE -->
 
-# http://localhost:8000/api/courses/FullStack Web 3.0
+# DELETE = http://localhost:8000/api/courses/:name
