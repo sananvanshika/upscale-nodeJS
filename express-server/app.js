@@ -1,17 +1,15 @@
 const express = require("express");
+const connectDB = require("./src/db");
+
 const dotenv = require("dotenv");
-const { validateCourse, validateUpdateCourse } = require("./validators");
+const { validateCourse, validateUpdateCourse } = require("./src/validators");
+
 
 const app = express();
 dotenv.config();
 app.use(express.json());
 
-// app.post("/api/course-details", courseData, (req, res) => {
-//   const { name, description, category } = req.body;
-//   res
-//     .status(201)
-//     .json({ message: "Data created successfully", data: req.body });
-// });
+connectDB();
 let courses = [];
 // Get all courses
 app.get("/api/courses", (req, res) => {
