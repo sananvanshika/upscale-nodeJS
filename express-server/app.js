@@ -1,6 +1,7 @@
 const express = require("express");
 const connectDB = require("./src/db");
 const User = require("./src/model/model");
+const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const { validateCourse, validateUpdateCourse } = require("./src/validators");
 
@@ -41,11 +42,13 @@ app.delete("/api/courses/:name", (req, res) => {
   res.json({ message: "Course deleted successfully" });
 });
 
-// Registration API endpoint
 app.post("/api/register", async (req, res) => {
   const { username, email, password } = req.body;
+
   try {
-    const newUser = new User({ username, email, password });
+    //password using bcrypt
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ username, email, password: hashedPassword });
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
   } catch (err) {
