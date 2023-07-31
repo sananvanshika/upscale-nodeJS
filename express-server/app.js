@@ -1,9 +1,8 @@
 const express = require("express");
 const connectDB = require("./src/db");
-
+const User = require("./src/model/model");
 const dotenv = require("dotenv");
 const { validateCourse, validateUpdateCourse } = require("./src/validators");
-
 
 const app = express();
 dotenv.config();
@@ -40,6 +39,18 @@ app.delete("/api/courses/:name", (req, res) => {
 
   courses = courses.filter((course) => course.name !== courseName);
   res.json({ message: "Course deleted successfully" });
+});
+
+// Registration API endpoint
+app.post("/api/register", async (req, res) => {
+  const { username, email, password } = req.body;
+  try {
+    const newUser = new User({ username, email, password });
+    const savedUser = await newUser.save();
+    res.status(201).json(savedUser);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 });
 
 app.listen(process.env.PORT, () => {
