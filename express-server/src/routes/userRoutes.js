@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
-const authMiddleware = require("../middlewares/authMiddleware");
+// const authMiddleware = require("../middlewares/authMiddleware");
 
 // Registration API endpoint
 router.post("/register", userController.registerUser);
@@ -11,7 +11,7 @@ router.post("/register", userController.registerUser);
 router.post("/login", authController.loginUser);
 
 // Middleware to verify JWT token
-router.use(authMiddleware.verifyToken);
+// router.use(authMiddleware.verifyToken);
 
 // Protected APIs (require authentication)
 router.get("/all", userController.getAllUsers);
