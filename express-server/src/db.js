@@ -9,4 +9,5 @@ async function connectDB() {
     console.error(error);
   }
 }
+
 module.exports = connectDB;
