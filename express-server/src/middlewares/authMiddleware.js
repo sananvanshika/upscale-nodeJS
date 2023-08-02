@@ -1,9 +1,10 @@
+// authMiddleware.js
+
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 
 dotenv.config();
 
-// Middleware function to verify the JWT token
 exports.verifyToken = (req, res, next) => {
   const token = req.header("Authorization");
 
